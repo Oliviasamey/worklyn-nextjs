@@ -1,7 +1,6 @@
 'use client'
 import Image from "next/image"
 import { useState } from "react";
-import { FaBeer } from 'react-icons/fa';
 
 export default function Carousel({ slides }) {
 
