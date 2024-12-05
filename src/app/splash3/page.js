@@ -3,6 +3,7 @@ import React from "react"
 import Image from "next/image"
 import Carousel from "@/components/carousel.component"
 import Button from "@/components/button";
+import Link from 'next/link';
 
 export default function splash() {
 
@@ -38,7 +39,9 @@ export default function splash() {
             <Carousel slides={slides} />
           </div>
           <div className="w-[30%] flex flex-col gap-4">
+            <Link href={`/splash4`} className="w-full flex flex-col gap-4 ">
             <Button varient="filled"> Continue </Button>
+            </Link>
             <Button varient="outline"> Sign In </Button>
           </div>
         </div>

@@ -16,14 +16,14 @@ export default function Carousel({ slides }) {
 
     return (
         <div className="overflow-hidden relative min-h-56">
-            <div className={`flex transition ease-out duration-4
-        0`}
+            <div className={`flex transition ease-out duration-40`}
                 style={{
                     transform: `translateX(-${current * 100}%)`,
                 }}
             >
-                {slides.map((slide) => (
+                {slides.map((slide, index) => (
                     <Image
+                        key={index}
                         src={slide.src} // Image source
                         alt={slide.alt} // Alt text (fallback to slide index)
                         width={slide.width} // Dynamic width
@@ -34,14 +34,13 @@ export default function Carousel({ slides }) {
             </div>
 
             <div className="absolute bottom-0 flex justify-center gap-1 w-full ">
-                {slides.map((s, i) => {
-                   return <div 
-                   onClick={()=>{
-                    setCurrent(i);
-                   }}
-                    key={"circle" + i}
-                    className={`rounded-full w-10 h-2 cursor-pointer ${
-                        i == current ? "bg-blue-300": "bg-gray-300"}`}></div>
+                {slides.map((_, index)  => {
+                    return <div
+                        key={`indicator-${index}`}
+                        onClick={() => {
+                            setCurrent(index);
+                        }}
+                        className={`rounded-full w-10 h-2 cursor-pointer ${index == current ? "bg-sky-600" : "bg-gray-300"}`}></div>
                 })}
             </div>
 
