@@ -53,7 +53,7 @@ export default function splash() {
                         <Carousel slides={slides} />
                     </div>
                     <div className="w-[50%] flex flex-col gap-4">
-                        <Link href={`/splash4`} className="w-full flex flex-col gap-4 ">
+                        <Link href={`/splash6`} className="w-full flex flex-col gap-4 ">
                             <Button varient="filled"> Continue </Button>
                         </Link>
                         <Button varient="underline"> Take me home </Button>

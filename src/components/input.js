@@ -1,4 +1,4 @@
-export default function inputField({inputField}) {
+export default function inputField({inputFiel}) {
 
     return (
         <div className="border border-gray-300 rounded-full h-14 w-96 text-sm relative focus-within:border-white">
