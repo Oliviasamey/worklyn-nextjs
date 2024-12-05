@@ -5,10 +5,12 @@ import { useSearchParams } from "next/navigation";
 import Carousel from "@/components/carousel.component"
 import Button from "@/components/button";
 import Link from 'next/link';
+import { useRouter } from "next/navigation";
 
 export default function splash() {
     const searchParams = useSearchParams(); // Extract query parameters
     const name = searchParams.get("name") || "there"; // Default to 'there' if no name is provided
+    const router = useRouter();
 
     let slides = [
         {
@@ -28,6 +30,15 @@ export default function splash() {
 
     return (
         <main>
+            <div className="relative flex flex-col items-center justify-center">
+        {/* Back Button */}
+        <button
+          onClick={() => router.back("/splash4")} // Navigate to the previous page
+          className="absolute top-4 left-4 px-4 py-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300"
+        >
+          Back
+        </button>
+        </div>
             <div className="w-full h-screen flex items-center justify-center">
                 <div className="flex flex-col h-[80%] justify-between items-center">
                     <div>
@@ -45,7 +56,7 @@ export default function splash() {
                         <Link href={`/splash4`} className="w-full flex flex-col gap-4 ">
                             <Button varient="filled"> Continue </Button>
                         </Link>
-                        <Button varient="outline"> Take me home </Button>
+                        <Button varient="underline"> Take me home </Button>
                     </div>
                 </div>
 

@@ -23,7 +23,7 @@ export default function splash4() {
         <div className="relative flex flex-col items-center justify-center">
         {/* Back Button */}
         <button
-          onClick={() => router.back()} // Navigate to the previous page
+          onClick={() => router.back("/splash3")} // Navigate to the previous page
           className="absolute top-4 left-4 px-4 py-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300"
         >
           Back
