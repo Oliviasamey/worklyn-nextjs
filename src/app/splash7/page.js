@@ -4,11 +4,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/button";
 import Link from 'next/link';
-import { FcGoogle } from "react-icons/fc";
-import { ImWhatsapp } from "react-icons/im";
 
 
-export default function splash6() {
+export default function splash7() {
     const [email, setEmail] = useState(""); // State to store the input value
     const router = useRouter(); // Using useRouter for navigation
 
@@ -27,7 +25,7 @@ export default function splash6() {
             <div className="relative flex items-center justify-center ">
                 {/* Back Button */}
                 <button
-                    onClick={() => router.back("/splash7")} // Navigate to the previous page
+                    onClick={() => router.back("/splash5")} // Navigate to the previous page
                     className="absolute top-4 left-4 px-4 py-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300"
                 >
                     Back
@@ -39,31 +37,25 @@ export default function splash6() {
                     <h2 className="text-2xl font-bold text-center max-w-96">
                         To get the best out of Worklyn, Sign in
                     </h2>
-                    <div className="border border-gray-300 rounded-2xl  h-12 w-80 text-xl relative focus-within:border-gray-400">
-                    <p>Enter your email; address to get started</p>
+
+                    <div className="flex flex-col text-start font-normal text-xm">
+                        <p>Enter verification code we sent to your email</p>
                         <input
                             type="email"
-                            className="peer px-4 pt-3 outline-none bg-transparent text-black"
+                            className="peer px-4 pt-3 outline-none bg-transparent text-black  border border-gray-300 rounded-2xl h-12 w-80 text-xl relative focus-within:border-gray-400"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)} // Update state on input change
                             onKeyDown={handleKeyDown} // Handle Enter key
-                            placeholder="exemple@emailprovider.com "
+                            placeholder="12345"
                         />
                         <label className="text-gray-400 absolute left-4 top-3 transition-all duration-300 peer-focus:text-xs peer-focus:top-2 peer-focus:text-gray-500">
-                            
                         </label>
+                        
+                        <Link href="# " className="text-sky-600 underline font-bold text-end">Resend code</Link>
                     </div>
-                    <Link href={`/splash7`} className="w-full flex flex-col gap-4 ">
-                        <Button varient="filled"> Continue with email </Button>
+                    <Link href={`/splash6`} className="w-full flex flex-col gap-4 ">
+                        <Button varient="filled"> Continue</Button>
                     </Link>
-                    <h2 className="text-1xl font-medium text-center"> Or </h2>
-                    <button className="px-4 py-2 rounded-full w-full border-gray-300 border flex justify-center items-center text-center gap-2">
-                        <FcGoogle className="text-2xl"/>
-                        Continue with Google</button>
-                    <button className="bg-green-500 px-4 py-2 rounded-full w-full text-white flex justify-center items-center gap-2">
-                        <ImWhatsapp  className="text-2xl"/>
-                        Continue with WhatsApp
-                    </button>
                 </div>
 
                 <div className="absolute bottom-4 text-center font-light text-gray-600">
