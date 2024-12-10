@@ -6,21 +6,31 @@ import Button from "@/components/button";
 import Link from 'next/link';
 import { FcGoogle } from "react-icons/fc";
 import { ImWhatsapp } from "react-icons/im";
+import { useForm } from "react-hook-form";
+import { consumeDynamicAccess } from "next/dist/server/app-render/dynamic-rendering";
+
+
 
 
 export default function splash6() {
-    const [email, setEmail] = useState(""); // State to store the input value
     const router = useRouter(); // Using useRouter for navigation
 
-    const handleKeyDown = (event) => {
-        if (event.key === "Enter") {
-            if (email.trim()) {
-                router.push(`/splash5?email=${encodeURIComponent(email)}`); // Redirect to splash5
-            } else {
-                alert("Please enter an email before proceeding.");
-            }
-        }
+    // react-hook-form setup
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+
+    // Handle form submission
+    const onSubmit = (data) => {
+        console.log("Form Submitted:", data);
+        router.push(`/splash7?email=${encodeURIComponent(data.email)}`); // Redirect to splash7
     };
+
+    
+
+ 
 
     return (
         <main className="flex flex-col">
@@ -39,23 +49,34 @@ export default function splash6() {
                     <h2 className="text-2xl font-bold text-center max-w-96">
                         To get the best out of Worklyn, Sign in
                     </h2>
-                    <div className="border border-gray-300 rounded-2xl  h-12 w-80 text-xl relative focus-within:border-gray-400">
                     <p>Enter your email; address to get started</p>
-                        <input
-                            type="email"
-                            className="peer px-4 pt-3 outline-none bg-transparent text-black"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)} // Update state on input change
-                            onKeyDown={handleKeyDown} // Handle Enter key
-                            placeholder="exemple@emailprovider.com "
-                        />
-                        <label className="text-gray-400 absolute left-4 top-3 transition-all duration-300 peer-focus:text-xs peer-focus:top-2 peer-focus:text-gray-500">
-                            
-                        </label>
-                    </div>
-                    <Link href={`/splash7`} className="w-full flex flex-col gap-4 ">
-                        <Button varient="filled"> Continue with email </Button>
-                    </Link>
+                    <form
+                        className="w-full flex flex-col gap-4"
+                        onSubmit={handleSubmit(onSubmit)} // Attach form submit handler
+                    >
+                        <div className="border border-gray-300 rounded-2xl h-12 w-80 text-xl relative focus-within:border-gray-400">
+                            <input
+                                type="email"
+                                className="peer px-4 pt-3 outline-none bg-transparent text-black"
+                                placeholder="example@emailprovider.com"
+                                {...register("email", {
+                                    required: "Email is required.",
+                                    pattern: {
+                                        value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                                        message: "Please enter a valid email",
+                                    },
+                                })}
+                            />
+                            <label className="text-gray-400 absolute left-4 top-3 transition-all duration-300 peer-focus:text-xs peer-focus:top-2 peer-focus:text-gray-500"></label>
+                        </div>
+                        {/* Error Message */}
+                        {errors.email && (
+                            <p className="text-red-500 text-sm">
+                                {errors.email.message}
+                            </p>
+                        )}
+                            <Button varient="filled">Continue with email</Button>
+                    </form>
                     <h2 className="text-1xl font-medium text-center"> Or </h2>
                     <button className="px-4 py-2 rounded-full w-full border-gray-300 border flex justify-center items-center text-center gap-2">
                         <FcGoogle className="text-2xl"/>
@@ -79,3 +100,34 @@ export default function splash6() {
         </main>
     );
 }
+
+
+// old consumeDynamicAccess
+
+// const handleKeyDown = (event) => {
+    //     if (event.key === "Enter") {
+    //         if (email.trim()) {
+    //             router.push(`/splash5?email=${encodeURIComponent(email)}`); // Redirect to splash5
+    //         } else {
+    //             alert("Please enter an email before proceeding.");
+    //         }
+    //     }
+    // };
+
+{/* <div className="border border-gray-300 rounded-2xl  h-12 w-80 text-xl relative focus-within:border-gray-400">
+
+    <input
+        type="email"
+        className="peer px-4 pt-3 outline-none bg-transparent text-black"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)} // Update state on input change
+        onKeyDown={handleKeyDown} // Handle Enter key
+        placeholder="exemple@emailprovider.com "
+    />
+    <label className="text-gray-400 absolute left-4 top-3 transition-all duration-300 peer-focus:text-xs peer-focus:top-2 peer-focus:text-gray-500">
+        
+    </label>
+</div>
+<Link href={`/splash7`} className="w-full flex flex-col gap-4 ">
+    <Button varient="filled"> Continue with email </Button>
+</Link> */}
