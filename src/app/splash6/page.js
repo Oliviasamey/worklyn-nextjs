@@ -1,19 +1,28 @@
 "use client";
-import React from "react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Button from "@/components/button";
 import Link from 'next/link';
 import { FcGoogle } from "react-icons/fc";
 import { ImWhatsapp } from "react-icons/im";
 import { useForm } from "react-hook-form";
-import { consumeDynamicAccess } from "next/dist/server/app-render/dynamic-rendering";
-
 
 
 
 export default function splash6() {
     const router = useRouter(); // Using useRouter for navigation
+    const searchParams = useSearchParams();
+    const [name, setName] = useState("");
+    // const name = searchParams.get("name");
+
+    // document.cookie = "cookieName=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+    useEffect(() => {
+        const nameFromParams = searchParams.get("name"); // Retrieve name from query string
+        if (nameFromParams) {
+            setName(decodeURIComponent(nameFromParams)); // Decode if necessary
+        }
+    }, [searchParams]);
 
     // react-hook-form setup
     const {
@@ -22,15 +31,48 @@ export default function splash6() {
         formState: { errors },
     } = useForm();
 
-    // Handle form submission
-    const onSubmit = (data) => {
-        console.log("Form Submitted:", data);
-        router.push(`/splash7?email=${encodeURIComponent(data.email)}`); // Redirect to splash7
-    };
+    // Handle form submission and API call
+    const onSubmit = async (data) => {
+        console.log("Name in state:", name);
+        console.log("Payload:", { username: name, email: data.email });
+        try {
+          const payload = {
+            username: name,
+            email: data.email,
+          };
+      
+          console.log("Sending to API:", payload);
+          console.log("Request Headers:", {
+            "Content-Type": "application/json",
+            Authorization: "Bearer your-token",
+        });
+        console.log("Request Payload:", JSON.stringify({ username, email }));
+        
+      
+          const response = await fetch("/api/worklyn-proxy", { // Changed URL
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            //   "Authorization": "asdsadqdsadsafdfsdfds" // Keep the Authorization header here
+            },
+            body: JSON.stringify({ username: name, email: data.email }),
+          });
+      
+          if (response.ok) {
+            console.log("Data successfully sent to the server");
+            router.push("/splash7");
+          } else {
+              const errorText = await response.text()
+              console.error("Error sending data:", response.status, errorText);
+          }
+        } catch (error) {
+          console.error("API request failed:", error);
+        }
+      };
 
-    
 
- 
+
+
 
     return (
         <main className="flex flex-col">
@@ -75,14 +117,14 @@ export default function splash6() {
                                 {errors.email.message}
                             </p>
                         )}
-                            <Button varient="filled">Continue with email</Button>
+                        <Button varient="filled">Continue with email</Button>
                     </form>
                     <h2 className="text-1xl font-medium text-center"> Or </h2>
                     <button className="px-4 py-2 rounded-full w-full border-gray-300 border flex justify-center items-center text-center gap-2">
-                        <FcGoogle className="text-2xl"/>
+                        <FcGoogle className="text-2xl" />
                         Continue with Google</button>
                     <button className="bg-green-500 px-4 py-2 rounded-full w-full text-white flex justify-center items-center gap-2">
-                        <ImWhatsapp  className="text-2xl"/>
+                        <ImWhatsapp className="text-2xl" />
                         Continue with WhatsApp
                     </button>
                 </div>
@@ -105,14 +147,14 @@ export default function splash6() {
 // old consumeDynamicAccess
 
 // const handleKeyDown = (event) => {
-    //     if (event.key === "Enter") {
-    //         if (email.trim()) {
-    //             router.push(`/splash5?email=${encodeURIComponent(email)}`); // Redirect to splash5
-    //         } else {
-    //             alert("Please enter an email before proceeding.");
-    //         }
-    //     }
-    // };
+//     if (event.key === "Enter") {
+//         if (email.trim()) {
+//             router.push(`/splash5?email=${encodeURIComponent(email)}`); // Redirect to splash5
+//         } else {
+//             alert("Please enter an email before proceeding.");
+//         }
+//     }
+// };
 
 {/* <div className="border border-gray-300 rounded-2xl  h-12 w-80 text-xl relative focus-within:border-gray-400">
 

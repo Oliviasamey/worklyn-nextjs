@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
+
 export default function Splash4() {
   const router = useRouter();
   
@@ -16,8 +17,9 @@ export default function Splash4() {
 
   // Handle form submission
   const onSubmit = (data) => {
-      console.log("Form Submitted:", data);
-      router.push(`/splash5?name=${encodeURIComponent(data.name)}`); // Redirect to splash5
+      console.log("Name Submitted:", data.name);
+      router.push(`/splash5?name=${encodeURIComponent(data.name)}`);
+      router.push(`/splash6?name=${encodeURIComponent(data.name)}`); // Redirect to splash5
   };
 
   return (
